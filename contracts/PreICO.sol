@@ -138,7 +138,7 @@ contract PreICO is ReentrancyGuard, Ownable, Stateful {
   uint256 period) public onlyOwner
   {
     startPreICOTime = now;
-    endPreICOTime = startPreICOTime + (period * 1 days);
+    endPreICOTime = startPreICOTime.add(period * 1 days);
     softCapPreSale = _softCapPreSale;
     hardCapPreSale = _hardCapPreSale;
     setState(State.PreSale);
