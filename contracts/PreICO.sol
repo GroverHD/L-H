@@ -1,6 +1,6 @@
 pragma solidity ^0.4.15;
 
-import "./ITL.sol";
+import "./LIT.sol";
 
 contract ReentrancyGuard {
 
@@ -45,7 +45,7 @@ contract Stateful {
 contract PreICO is ReentrancyGuard, Ownable, Stateful {
   using SafeMath for uint256;
 
-  ITL public token;
+  LIT public token;
 
   address public wallet;
 
@@ -86,7 +86,7 @@ contract PreICO is ReentrancyGuard, Ownable, Stateful {
     priceUSD = _priceUSD;
     rate = 250000000000000000; // 0.25 * 1 ether per one cent
     wallet = _wallet;
-    token = ITL(_token);
+    token = LIT(_token);
     hardCapPrivate = 40000000;
   }
 

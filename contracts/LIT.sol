@@ -292,11 +292,11 @@ contract MintBurnableToken is StandardToken, Ownable {
 
 }
 
-contract ITL is MintBurnableToken {
+contract LIT is MintBurnableToken {
 
   string public constant name = "Investment Token of L&H";
 
-  string public constant symbol = "ITL";
+  string public constant symbol = "LIT";
 
   uint8 public constant decimals = 18;
 
