@@ -120,10 +120,7 @@ contract BasicToken is ERC20Basic {
 
   using SafeMath for uint256;
 
-  modifier onlyPayloadSize(uint size) {
-    assert(msg.data.length == size + 4);
-    _;
-  }
+ 
 
   mapping(address => uint256) balances;
 
@@ -301,6 +298,6 @@ contract ITL is MintBurnableToken {
 
   string public constant symbol = "ITL";
 
-  uint32 public constant decimals = 18;
+  uint8 public constant decimals = 18;
 
 }
