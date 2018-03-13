@@ -60,12 +60,12 @@ contract ERC20Basic {
  * @title ERC20 interface
  * @dev see https://github.com/ethereum/EIPs/issues/20
  */
+
 contract ERC20 is ERC20Basic {
   function allowance(address owner, address spender) public view returns (uint256);
   function transferFrom(address from, address to, uint256 value) public returns (bool);
   function approve(address spender, uint256 value) public returns (bool);
   event Approval(address indexed owner, address indexed spender, uint256 value);
-
 }
 /**
  * @title SafeMath
@@ -292,11 +292,11 @@ contract MintBurnableToken is StandardToken, Ownable {
 
 }
 
-contract LIT is MintBurnableToken {
+contract DLH is MintBurnableToken {
 
-  string public constant name = "Investment Token of L&H";
+  string public constant name = "Depositor-investor L&H";
 
-  string public constant symbol = "LIT";
+  string public constant symbol = "DLH";
 
   uint8 public constant decimals = 18;
 

@@ -1,6 +1,6 @@
 pragma solidity ^0.4.15;
 
-import "./LIT.sol";
+import "./DLH.sol";
 
 contract ReentrancyGuard {
 
@@ -45,7 +45,7 @@ contract Stateful {
 contract PreICO is ReentrancyGuard, Ownable, Stateful {
   using SafeMath for uint256;
 
-  LIT public token;
+  DLH public token;
 
   address public wallet;
 
@@ -60,6 +60,8 @@ contract PreICO is ReentrancyGuard, Ownable, Stateful {
 
   // amount of raised money in wei
   uint256 public centRaised;
+
+  uint256 public minimumInvest;
 
   uint256 public softCapPreSale; // IN USD CENT
   uint256 public hardCapPreSale; // IN USD CENT
@@ -78,7 +80,8 @@ contract PreICO is ReentrancyGuard, Ownable, Stateful {
   function PreICO(
   address _wallet,
   address _token,
-  uint256 _priceUSD) public
+  uint256 _priceUSD,
+  uint256 _minimumInvest) public
   {
     require(_priceUSD != 0);
     require(_wallet != address(0));
@@ -86,8 +89,9 @@ contract PreICO is ReentrancyGuard, Ownable, Stateful {
     priceUSD = _priceUSD;
     rate = 250000000000000000; // 0.25 * 1 ether per one cent
     wallet = _wallet;
-    token = LIT(_token);
+    token = DLH(_token);
     hardCapPrivate = 40000000;
+    minimumInvest = _minimumInvest; // in cents
   }
 
   modifier saleIsOn() {
@@ -135,9 +139,10 @@ contract PreICO is ReentrancyGuard, Ownable, Stateful {
 
   function startPreSale(uint256 _softCapPreSale,
   uint256 _hardCapPreSale,
-  uint256 period) public onlyOwner
+  uint256 period,
+  uint256 _start) public onlyOwner
   {
-    startPreICOTime = now;
+    startPreICOTime = _start;
     endPreICOTime = startPreICOTime.add(period * 1 days);
     softCapPreSale = _softCapPreSale;
     hardCapPreSale = _hardCapPreSale;
@@ -188,7 +193,7 @@ contract PreICO is ReentrancyGuard, Ownable, Stateful {
   }
 
   function buyTokens(address beneficiary) saleIsOn isUnderHardCap nonReentrant public payable {
-    require(beneficiary != address(0) && msg.value != 0);
+    require(beneficiary != address(0) && msg.value.div(priceUSD) >= minimumInvest);
     uint256 weiAmount = msg.value;
     uint256 centValue = weiAmount.div(priceUSD);
     uint256 tokens = getTokenAmount(centValue);
